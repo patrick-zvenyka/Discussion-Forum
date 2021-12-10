@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+    <!-- Site Icon -->
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
+
+
+    <title>Discussion Forum | HomePage</title>
+
+</head>
+
+<body>
+    <!-----------------------------------------------------------Top-Menu-------------------------------------------------------------------------->
+    <div class="header">
+        <div class="ss">
+            <div class="navbar" style="background-color: rgb(245, 245, 245);">
+                <div class="logo">
+                    <span>
+                         <img src="{% static 'images/logo.png' %}" width="30" height="30"  alt=""> <span>MSU Discussion Forum </span>
+
+
+                    </span>
+                </div>
+
+
+
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h1>Learning Online! <br>And Discussing Online!</h1>
+                    <p>Improving healthy and safety assurance for you. Carry out your discussions here with your colleagues.
+                    </p>
+                    <!----------------------------------------------------------------------modal popover------------------------------------------------------------------------>
+                    <div class="col-sm-4">
+
+                    </div>
+                    <div class="">
+                        <a class="btn small-login" href="{% url 'login.html' %}">Explore Now</a>
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+                <div class="col-6">
+                    <img src="{% static 'images/discussion.jpeg' %}" alt="">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!----------------------------------------------------------features--------------------------------------------------------------------------->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <h2 class="title">Features</h2>
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="{% static 'images/1210114.jpg' %}" alt="First slide">
+                <div class="carousel-caption">
+                    <h1>Quality Online Accessing</h1>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="{% static 'images/1210155.jpg' %}" alt="Second slide">
+                <div class="carousel-caption">
+                    <h1>Quality Discissions</h1>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="{% static 'images/1209535.jpg' %}" alt="Third slide">
+                <div class="carousel-caption">
+                    <h1>Quality Knowledge</h1>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!---------------------------------------------------------footer------------------------------------------------------------------------------>
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <hr>
+                <div class="row">
+                    <div class="footer-link">
+                        <h4>Information</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Terms &amp; Conditions</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+
+    <script>
+        $('.carousel').carousel()
+    </script>
+
+</body>
+
+<script src="{% static 'hassets/js/bootstrap.min.js' %}" type="text/javascript"></script>
+
+<script src="{% static 'hbootstrap-4.0.0/bootstrap-4.0.0/js/src/carousel.js' %}"></script>
+
+
+
+
+</html>
