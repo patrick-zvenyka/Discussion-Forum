@@ -46,7 +46,7 @@ def loginPage(request):
 def main(request):
     questions = Question.objects.all().order_by('-created_at')
     context = {
-        'questions' : questions
+        'questions' : questions, 'title':'MSU Discussion Forum | Dashboard'
     }
     return render (request, 'main.html', context)
 
@@ -86,7 +86,7 @@ def newQuestionPage(request):
         except Exception as e:
             print(e)
             raise
-    context = {'form': form
+    context = {'form': form, 'title':'>MSU Discussion Forum | Ask Questions'
     }
     return render(request, 'questions.html', context)
 
