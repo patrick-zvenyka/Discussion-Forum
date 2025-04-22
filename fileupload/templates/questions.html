@@ -5,47 +5,13 @@
 {% block content %}
     <div class="wrapper">
     <!-- Content Wrapper -->
-        <div>
-            <!-- Page Header -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>User Profile</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#"><strong>Main Dashboard</strong></a></li>
-                                <li class="breadcrumb-item active">Ask Questions</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+        <div class="container my-4">
             <!-- Main Content -->
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
                         <!-- Sidebar -->
-                        <div class="col-md-3">
-                            <div class="card card-primary card-outline">
-                                <div class="card-body box-profile">
-                                    <div class="text-center">
-                                        <img class="profile-user-img img-fluid img-circle" src="{% static 'images/user-3.png' %}" alt="User profile picture">
-                                    </div>
-                                    <h3 class="profile-username text-center">{{ request.user }}</h3>
-                                    <hr>
-                                    <p class="text-muted text-center">{{ request.user.email }}</p>
-                                    <hr>
-                                    <a href="{% url 'main.html' %}" class="text-muted text-center">
-                                        <button type="button" class="btn btn-secondary">
-                                            <small><strong>Back</strong></small>
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        {% include "components/profile.html" %}
 
                         <!-- Main Content Area -->
                         <div class="col-md-9">

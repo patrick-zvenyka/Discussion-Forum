@@ -86,7 +86,7 @@ def newQuestionPage(request):
         except Exception as e:
             print(e)
             raise
-    context = {'form': form, 'title':'>MSU Discussion Forum | Ask Questions'
+    context = {'form': form, 'title':'MSU Discussion Forum | Ask Questions'
     }
     return render(request, 'questions.html', context)
 

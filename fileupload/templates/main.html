@@ -7,29 +7,7 @@
     <div class="container my-4">
         <div class="row">
             <!-- Profile Sidebar -->
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <img class="img-fluid img-circle mb-3" src="{{ request.user.siteusers.pro_pic.url }}" alt="Profile Picture" style="width:100px; height:100px;">
-                        <h5 class="card-title">{{ request.user }}</h5>
-                        <p><i class="fas fa-book mr-1"></i> {{ request.user.siteusers.program }}</p>
-                        <p><i class="fas fa-pencil-alt mr-1"></i> {{ request.user.siteusers.position }}</p>
-                        <p><i class="far fa-envelope mr-1"></i> {{ request.user.email }}</p>
-                    </div>
-                </div>
-
-                <div class="card mt-3">
-                    <div class="card-header bg-primary text-white">
-                        <h6 class="mb-0">Profile Actions</h6>
-                    </div>
-                    <div class="card-body profile-actions">
-                        <a href="{% url 'logout' %}"><button class="btn btn-warning">Log Out</button></a>
-                        <a href="{% url 'questions.html' %}"><button class="btn btn-secondary">Ask Questions</button></a>
-                        <a href="{% url 'profile' %}"><button class="btn btn-info">Profile Settings</button></a>
-                    </div>
-                </div>
-            </div>
-
+            {% include "components/profile.html" %}
             <!-- Main Content -->
             <div class="col-md-9">
                 <div class="card">
@@ -48,15 +26,15 @@
                             {% for question in questions %}
                             <div class="post border-bottom pb-3">
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="{% static 'images/user-3.png' %}" class="img-circle mr-2" width="40" height="40" alt="User image">
+                                    <img src="{% static 'images/user-286.png' %}" class="img-circle mr-2" width="40" height="40" alt="User image">
                                     <div>
                                         <strong>{{ question.author.username }}</strong><br>
                                         <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
                                     </div>
                                 </div>
-                                <h5>{{ question.title }}</h5>
-                                <p><em>{{ question.subject }}</em></p>
-                                <a href="{% url 'responses.html' question.id %}" class="btn btn-sm btn-outline-primary"><i class="far fa-comments"></i> Responses</a>
+                                <p>{{ question.title }}</p>
+                                <p><em> <small>{{ question.subject }}</small></em></p>
+                                <a href="{% url 'responses.html' question.id %}" class="btn btn-sm btn-outline-secondary"><i class="far fa-comments"></i> Responses</a>
                             </div>
                             {% endfor %}
                         </div>

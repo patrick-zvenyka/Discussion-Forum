@@ -10,7 +10,7 @@ urlpatterns = [
     path('question/<int:id>', views.questionpage, name ='responses.html'),
     path('newquestion', views.newQuestionPage, name = 'questions.html'),
     path('logout', views.logoutPage, name = 'logout'),
-    path('main', views.main, name = 'main.html' ),
+    path('main', views.main, name = 'main-page' ),
     path('user profile', views.profile, name='profile'),
    
     
