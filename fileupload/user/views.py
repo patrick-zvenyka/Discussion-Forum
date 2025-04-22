@@ -24,7 +24,7 @@ def registerPage(request):
             raise
 
     context = {
-        'form': form,'title':'Signup Page'   
+        'form': form,'title':'StudyCircle | Signup Page'   
     }
     return render(request, 'register.html', context)
 
@@ -36,12 +36,12 @@ def loginPage(request):
             if form.is_valid():
                 user = form.get_user()
                 login(request, user)
-                return redirect('main.html') 
+                return redirect('main-page') 
         except Exception as e:
             print(e)
             raise
 
-    context = {'form':form,'title':'Login Page'}
+    context = {'form':form,'title':'StudyCircle | Login Page'}
     return render(request, 'login.html', context)
 
 
@@ -56,7 +56,7 @@ def main(request):
 
     context = {
         'questions': questions,
-        'title': 'MSU Discussion Forum | Dashboard'
+        'title': 'StudyCircle | Dashboard'
     }
     return render(request, 'main.html', context)
 
@@ -97,7 +97,7 @@ def newQuestionPage(request):
         except Exception as e:
             print(e)
             raise
-    context = {'form': form, 'title':'MSU Discussion Forum | Ask Questions'
+    context = {'form': form, 'title':'StudyCircle | Ask Questions'
     }
     return render(request, 'questions.html', context)
 
@@ -135,7 +135,8 @@ def questionpage(request, id):
     question = Question.objects.get(id = id)
     context = {
         'question' : question,
-        'response_form' : response_form
+        'response_form' : response_form,
+        'title':'StudyCircle | Responses'
     }
     return render(request, 'responses.html', context)
 

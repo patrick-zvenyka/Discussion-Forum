@@ -25,7 +25,7 @@
                                             <!-- Question Block -->
                                             <div class="post">
                                                 <div class="user-block">
-                                                    <img class="img-circle img-bordered-sm" src="{% static 'images/user-3.png' %}" alt="user image">
+                                                    <img class="img-circle img-bordered-sm" src="{% static 'images/user-286.png' %}" alt="user image">
                                                     <span class="username"><a href="#">{{ question.author.username }}</a></span>
                                                     <span class="description">{{ question.subject }} | <strong>Posted:</strong> <i class="far fa-clock"></i> {{ question.created_at }}</span>
                                                 </div>
@@ -40,17 +40,25 @@
                                                         <p class="no-responses-text"><i class="far fa-frown"></i> <strong>No responses yet</strong></p>
                                                     {% else %}
                                                         {% for response in question.get_responses %}
-                                                        <blockquote id="{{ response.id }}">
-                                                            <p class="response-body">{{ response.body }}</p>
-                                                            <hr>
-                                                            {% if response.pdf %}
-                                                                <a href="{{ response.pdf.url }}" class="btn btn-outline-info btn-sm" target="_blank"><i class="fa fa-download"></i> Download File</a>
-                                                            {% else %}
-                                                                <span class="text-muted"><small>No PDF</small></span>
-                                                            {% endif %}
-                                                            <small class="response-author d-block mt-2">{{ response.user.username }} | <strong>Response On:</strong> {{ response.updated_at }}</small>
-                                                            <hr>
-                                                        </blockquote>
+                                                        <div class="card-body">
+                                                            <blockquote id="{{ response.id }}">
+                                                                <p class="response-body">{{ response.body }}</p>
+                                                           
+                                                                {% if response.pdf %}
+                                                                    <a href="{{ response.pdf.url }}" class="btn btn-outline-info btn-sm" target="_blank"><i class="fa fa-download"></i> Download File</a>
+                                                                {% else %}
+                                                                    <span class="text-muted"><small>No PDF</small></span>
+                                                                {% endif %}
+                                                                <br>
+                                                                <br>
+                                                                <div class="user-block">
+                                                                    <img class="img-circle img-bordered-sm" src="{% static 'images/user-286.png' %}" alt="user image">
+                                                                    <span class="username"><a href="#">{{ response.user.username }}</a></span>
+                                                                    <span class="description"><strong>Response Time:</strong> <i class="far fa-clock"></i> {{ response.updated_at }}</span>
+                                                                </div>
+                                                     
+                                                            </blockquote>
+                                                        </div>
                                                         {% endfor %}
                                                     {% endif %}
                                                 </div>
