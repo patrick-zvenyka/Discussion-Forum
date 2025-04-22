@@ -6,27 +6,45 @@ from .models import Question, Response, SiteUsers
 
 class RegisterUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    class meta:
+
+    class Meta:
         model = User
-        fields = ['username','email','password1','password2']
-        
+        fields = ['username', 'email', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         super(RegisterUserForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs ={'placeholder' : '@jandoe'}
-        self.fields['email'].widget.attrs ={'placeholder' : 'jandoe@gmail.com'}
-        self.fields['password1'].widget.attrs ={'placeholder' : 'Password'}
-        self.fields['password2'].widget.attrs ={'placeholder' : 'Confirm Password'}
+
+        self.fields['username'].widget.attrs.update({
+            'placeholder': '@jandoe',
+            'class': 'form-control'
+        })
+        self.fields['email'].widget.attrs.update({
+            'placeholder': 'jandoe@gmail.com',
+            'class': 'form-control'
+        })
+        self.fields['password1'].widget.attrs.update({
+            'placeholder': 'Password',
+            'class': 'form-control'
+        })
+        self.fields['password2'].widget.attrs.update({
+            'placeholder': 'Confirm Password',
+            'class': 'form-control'
+        })
 
 
 class LoginForm(AuthenticationForm):
-    class meta:
-        fields : '__all__'
-    
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs ={'placeholder':'@jandoe'}
-        self.fields['password'].widget.attrs ={'placeholder': 'Password'}
+
+        self.fields['username'].widget.attrs.update({
+            'placeholder': '@jandoe',
+            'class': 'form-control'
+        })
+
+        self.fields['password'].widget.attrs.update({
+            'placeholder': 'Password',
+            'class': 'form-control'
+        })
 
 class NewQuestionForm(forms.ModelForm):
    

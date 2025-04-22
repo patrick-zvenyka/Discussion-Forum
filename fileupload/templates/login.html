@@ -1,47 +1,24 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
-    <title>Discussion Forum | Sign In Page</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'styles/bootstrap.min.css' %}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="{% static 'styles/signin.css' %}" rel="stylesheet">
-</head>
-
-<body>
-    {% block content %}
-
-    <div class="container">
-
-        <form action="" method="POST" class="form-signin">
+{% extends "components/main-login.html" %}
+{% block title %}{{ title }}{% endblock %} 
+{% block content %}
+    <div class="card p-4">
+        <h4 class="text-center mb-3">Login</h4>
+        <form action="" method="POST">
             {% csrf_token %}
-
-            <h2 class="form-signin-heading">Please Sign In</h2>
-            <div class="aty">
-                <label for="{{form.username.id_for_label}}"><strong>Username:</strong></label>{{form.username}}
+            <div class="mb-3">
+                <label for="{{form.username.id_for_label}}" class="form-label">Username</label>
+                {{form.username}}
                 <span class="error">{{form.username.errors}}</span>
             </div>
-            <div class="aty">
-                <label for="{{form.passowrd.id_for_label}}"><strong>Password:</strong></label>{{form.password}}
+            <div class="mb-3">
+                <label for="{{form.passowrd.id_for_label}}" class="form-label">Password</label>
+                {{form.password}}
                 <span class="error">{{form.password.errors}}</span>
             </div>
-
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            <p class="rt"> You want to <strong> <a href="{% url 'register.html' %}">create an account</a></strong>? </p>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            <p class="text-center mt-3 mb-0"> You want to <strong> <a href="{% url 'register.html' %}">create an account</a></strong>? </p>
 
             {% if form.non_field_errors %}
             <div class="non_form_errors">
@@ -49,13 +26,5 @@
             </div>
             {% endif %}
         </form>
-
     </div>
-    {% endblock %}
-
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-</body>
-
-
-
-</html>
+{% endblock %}

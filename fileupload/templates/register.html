@@ -1,56 +1,36 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends "components/main-login.html" %}
+{% block title %}{{ title }}{% endblock %} 
+{% block content %}
 
-
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="icon" href="../../favicon.ico">
-    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
-    <title>Discussion Forum | Sign Up Page</title>
-
-
-    <link href="{% static 'styles/bootstrap.min.css' %}" rel="stylesheet">
-
-
-    <link href="{% static 'styles/signin.css' %}" rel="stylesheet">
-</head>
-
-<body>
-    {% block content %}
-
-    <div class="container">
-
-        <form action="" method="POST" class="form-signin">
+    <div class="card p-4">
+        <h4 class="text-center mb-3">Signup</h4>
+        <form action="" method="POST">
             {% csrf_token %}
-            <h2 class="form-signin-heading">Create Your Account</h2>
-            <div class="aty">
-                <label for="{{form.username.id_for_label}}"><strong>Username:</strong> </label>{{form.username}}
+           
+            <div class="mb-3">
+                <label for="{{form.username.id_for_label}}"  class="form-label">Username</label>
+                {{form.username}}
                 <span class="error">{{form.username.errors}}</span>
             </div>
-            <div class="aty">
-                <label for="{{form.email.id_for_label}}"><strong>Email:</strong> </label>{{form.email}}
+            <div class="mb-3">
+                <label for="{{form.email.id_for_label}}" class="form-label">Email</label>
+                {{form.email}}
                 <span class="error">{{form.email.errors}}</span>
             </div>
-
-
-            <div class="aty">
-                <label for="{{form.passowrd1.id_for_label}}"> <strong>Password:</strong> </label>{{form.password1}}
+            <div class="mb-3">
+                <label for="{{form.passowrd1.id_for_label}}" class="form-label">Password</label>
+                {{form.password1}}
                 <span class="error">{{form.password1.errors}}</span>
             </div>
-            <div class="aty">
-                <label for="{{form.password2.id_for_label}}"> <strong> Confirm Password:</strong></label>{{form.password2}}
+            <div class="mb-3">
+                <label for="{{form.password2.id_for_label}}" class="form-label">Confirm Password</label>
+                {{form.password2}}
                 <span class="error">{{form.password2.errors}}</span>
             </div>
-
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
-            <p class="rt"> You already <strong> <a href="{% url 'login.html' %}">have an account</a></strong>? </p>
+             <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Signup</button>
+            </div>
+            <p class="text-center mt-3 mb-0"> You already <strong> <a href="{% url 'login.html' %}">have an account</a></strong>? </p>
 
             {% if form.non_field_errors %}
             <div class="non_form_errors">
@@ -61,11 +41,4 @@
 
     </div>
 
-    {% endblock %}
-
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-</body>
-
-
-
-</html>
+{% endblock %}

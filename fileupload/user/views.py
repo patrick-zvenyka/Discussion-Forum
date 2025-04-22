@@ -22,8 +22,7 @@ def registerPage(request):
             raise
 
     context = {
-        'form': form
-        
+        'form': form,'title':'Signup Page'   
     }
     return render(request, 'register.html', context)
 
@@ -40,7 +39,7 @@ def loginPage(request):
             print(e)
             raise
 
-    context = {'form':form}
+    context = {'form':form,'title':'Login Page'}
     return render(request, 'login.html', context)
 
 @login_required(login_url = 'login.html')   
