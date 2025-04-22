@@ -1,236 +1,92 @@
+{% extends "components/base.html" %}
+{% block title %}{{ title }}{% endblock %} 
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
-    <title>MSU Discussion Forum | Responses</title>
-
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{% static 'dist/css/bootstrap.min.css' %}">
-</head>
-
-
-<body class="hold-transition sidebar-mini">
-    {% block content %}
+{% block content %}
     <div class="wrapper">
-        <!-- Navbar -->
-        <nav class=" navbar navbar-expand navbar-white navbar-light" style="background-color:rgb(245, 245, 245);">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
+        <div class="container my-4">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- User Profile -->
+                        {% include "components/profile.html" %}
 
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="" class="nav-link"><img src="{% static 'images/logo.png' %}" width="30" height="30" alt=""> <strong>Discussion Forum</strong> </a>
-                </li>
-
-            </ul>
-
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                <!-- Navbar Search -->
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                        <i class="fas fa-search"></i>
-                    </a>
-                    <div class="navbar-search-block">
-                        <form class="form-inline">
-                            <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-navbar" type="submit"><i class="fas fa-search"></i></button>
-                                    <button class="btn btn-navbar" type="button" data-widget="navbar-search"><i class="fas fa-times"></i></button>
+                        <!-- Discussion & Responses -->
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-header p-2">
+                                    <ul class="nav nav-pills">
+                                        <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
+                                    </ul>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-                </li>
-
-
-
-            </ul>
-        </nav>
-        <!-- /.navbar -->
-
-
-    </div>
-    <!-- /.sidebar -->
-    </aside>
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>User Profile</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href=""><strong>Main Dashboard</strong> </a></li>
-                            <li class="breadcrumb-item active">Responses</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            <!-- /.container-fluid -->
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-3">
-
-                        <!-- Profile Image -->
-                        <div class="card card-primary card-outline">
-                            <div class="card-body box-profile">
-                                <div class="text-center">
-                                    <!-----Django Profile Picture-->
-                                    <img class="profile-user-img img-fluid img-circle" src="{% static 'images/user-3.png' %}" alt="User profile picture">
-
-                                </div>
-
-                                <h3 class="profile-username text-center">{{request.user}}</h3>
-                                <hr>
-                                <p class="text-muted text-center">{{request.user.email}}</p>
-                                <hr>
-                                <a href="{% url 'main.html' %}" class="text-muted text-center"><button type="button" class="btn btn-secondary"><small><strong>Back</strong></small></button> </a>
-
-
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
-
-                        <!-- About Me Box -->
-
-                        <!-- /.card -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-9">
-                        <div class="card">
-                            <div class="card-header p-2">
-                                <ul class="nav nav-pills">
-                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
-
-                                </ul>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <div class="tab-content">
-                                    <div class="active tab-pane" id="activity">
-                                        <!-- Post -->
-
-                                        <div class="post">
-
-                                            <div class="user-block">
-                                                <img class="img-circle img-bordered-sm" src="{% static 'images/user-3.png' %}" alt="user image">
-
-                                                <span class="username"><a href="">{{question.author.username}}</a>
-                                                   
-                                                </span>
-                                                <span class="description">{{question.subject}} <strong> Posted On:</strong> <i class="far fa-clock"></i>{{question.created_at}}</span>
-                                            </div>
-                                            <small>{{question.body}}</small>
-                                            <p>
-
-                                                {{question.title}}
-                                            </p>
-                                            <hr>
-                                            <div class="responses-container">
-                                                <h4 class="responses-container-heading">Responses</h4>
-                                                {% if not question.responses.all %}
-                                                <p class="no-responses-text"><i class="far fa-frown"></i> <strong>No responses yet</strong> </p>
-
-                                                {% else %} {% for response in question.get_responses %}
-                                                <blockquote id="{{response.id}}">
-                                                    <p class="no-responses-text"><i class="far fa-smile"></i> <strong>Response available!</strong> </p>
-
-                                                    <p class="response-body">{{response.body}}</p>
-                                                    <hr> {% if response.pdf %}
-                                                    <a href="{{ response.pdf.url }}" class="btn btn-outline-info btn-sm" target="_blank"><i class="fa-download">Download File</i> </a> {% else%}
-                                                    <span class="text-muted"><small>No PDF</small></span> {% endif %}
-                                                    <small class="response-author">{{response.user.username}} <strong>Response On:</strong>{{response.updated_at}}</small>
-                                                    <hr>
-                                                </blockquote>
-                                                {% endfor %} {% endif %}
-                                            </div>
-                                            <hr>
-                                            <form action="" method="POST" class="form-horizontal" enctype="multipart/form-data">
-                                                {% csrf_token %}
-                                                <div class="form-group row">
-                                                    <label for="{{response_form.body.id_for_label}}" class="col-sm-2 col-form-label">Your Response:</label> {{response_form.body}}
-
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="activity">
+                                            <!-- Question Block -->
+                                            <div class="post">
+                                                <div class="user-block">
+                                                    <img class="img-circle img-bordered-sm" src="{% static 'images/user-3.png' %}" alt="user image">
+                                                    <span class="username"><a href="#">{{ question.author.username }}</a></span>
+                                                    <span class="description">{{ question.subject }} | <strong>Posted:</strong> <i class="far fa-clock"></i> {{ question.created_at }}</span>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="{{response_form.pdf.id_for_label}}" class="col-sm-2 col-form-label">Your Attchment:</label>
-                                                    <input type="file" name="pdf" enctype="multipart/form-data" placeholder="Attachment">
+                                                <p><strong>{{ question.title }}</strong></p>
+                                                <p>{{ question.body }}</p>
+                                                <hr>
+
+                                                <!-- Responses -->
+                                                <div class="responses-container">
+                                                    <h4 class="responses-container-heading">Responses</h4>
+                                                    {% if not question.responses.all %}
+                                                        <p class="no-responses-text"><i class="far fa-frown"></i> <strong>No responses yet</strong></p>
+                                                    {% else %}
+                                                        {% for response in question.get_responses %}
+                                                        <blockquote id="{{ response.id }}">
+                                                            <p class="no-responses-text"><i class="far fa-smile"></i> <strong>Response available!</strong></p>
+                                                            <p class="response-body">{{ response.body }}</p>
+                                                            <hr>
+                                                            {% if response.pdf %}
+                                                                <a href="{{ response.pdf.url }}" class="btn btn-outline-info btn-sm" target="_blank"><i class="fa fa-download"></i> Download File</a>
+                                                            {% else %}
+                                                                <span class="text-muted"><small>No PDF</small></span>
+                                                            {% endif %}
+                                                            <small class="response-author d-block mt-2">{{ response.user.username }} | <strong>Response On:</strong> {{ response.updated_at }}</small>
+                                                            <hr>
+                                                        </blockquote>
+                                                        {% endfor %}
+                                                    {% endif %}
                                                 </div>
-                                                <button type="submit" class="btn btn-success">Send</button>
 
-                                            </form>
-
-
-
-                                        </div>
-
-
-
-
-
-
-
-
-                                    </div>
-
+                                                <!-- Response Form -->
+                                                <form action="" method="POST" class="form-horizontal mt-4" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="form-group row">
+                                                        <label for="{{ response_form.body.id_for_label }}" class="col-sm-2 col-form-label">Your Response:</label>
+                                                        <div class="col-sm-10">
+                                                            {{ response_form.body }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="{{ response_form.pdf.id_for_label }}" class="col-sm-2 col-form-label">Attachment:</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="file" name="pdf" class="form-control-file">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="offset-sm-2 col-sm-10">
+                                                            <button type="submit" class="btn btn-success">Send</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div> <!-- tab-pane -->
+                                    </div> <!-- tab-content -->
                                 </div>
-
                             </div>
-                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card -->
-                    </div>
-                    <!-- /.col -->
+                    </div> <!-- row -->
                 </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-    </div>
-    {% endblock %}
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <div class="float-right d-none d-sm-block">
-            <b>MSU</b> Discussion Forum
+            </section>
         </div>
-        <strong> <a href="#">MSU</a>.</strong> All rights reserved.
-    </footer>
+{% endblock %}
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-    </div>
-    <!-- ./wrapper -->
-
-    <!-- jQuery -->
-    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <!-- AdminLTE App -->
-    <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{% static 'dist/js/demo.js' %}"></script>
-</body>
-
-
-</html>
+ 
