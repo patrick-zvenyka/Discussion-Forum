@@ -5,6 +5,8 @@ from .models import Question, Response
 from django.http import HttpResponse
 from django.contrib import messages
 from .forms import RegisterUserForm, LoginForm, NewQuestionForm, NewResponseForm, SiteUsersForm
+from django.core.paginator import Paginator
+from django.shortcuts import render
 # Create your views here.
 
 def registerPage(request):
@@ -42,13 +44,22 @@ def loginPage(request):
     context = {'form':form,'title':'Login Page'}
     return render(request, 'login.html', context)
 
-@login_required(login_url = 'login.html')   
+
+
+@login_required(login_url='login.html')
 def main(request):
-    questions = Question.objects.all().order_by('-created_at')
+    questions_list = Question.objects.all().order_by('-created_at')
+    paginator = Paginator(questions_list, 5)  # Show 10 per page
+
+    page_number = request.GET.get('page')
+    questions = paginator.get_page(page_number)
+
     context = {
-        'questions' : questions, 'title':'MSU Discussion Forum | Dashboard'
+        'questions': questions,
+        'title': 'MSU Discussion Forum | Dashboard'
     }
-    return render (request, 'main.html', context)
+    return render(request, 'main.html', context)
+
 
 def home(request):
    return render (request, 'home.html')

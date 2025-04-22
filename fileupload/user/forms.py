@@ -46,23 +46,42 @@ class LoginForm(AuthenticationForm):
             'class': 'form-control'
         })
 
-class NewQuestionForm(forms.ModelForm):
-   
-    class Meta:
-         model = Question
-         fields = ['title','subject','body']
 
-         widgets ={
-             'title':forms.TextInput(attrs={
-                 'autofocus' : True,
-                'placeholder' : 'Your question title',
-                })
-         }
+class NewQuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['title', 'subject', 'body']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'autofocus': True,
+                'placeholder': 'Your question title',
+            }),
+            'subject': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Subject area of the question',
+            }),
+            'body': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Write your question in detail...',
+                'rows': 5,
+            }),
+        }
 
 class NewResponseForm(forms.ModelForm):
     class Meta:
         model = Response
-        fields = ['body','pdf']
+        fields = ['body', 'pdf']
+        widgets = {
+            'body': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Write your response...',
+                'rows': 4,
+            }),
+            'pdf': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+            }),
+        }
     
     
 class SiteUsersForm(forms.ModelForm):

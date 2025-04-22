@@ -41,7 +41,6 @@
                                                     {% else %}
                                                         {% for response in question.get_responses %}
                                                         <blockquote id="{{ response.id }}">
-                                                            <p class="no-responses-text"><i class="far fa-smile"></i> <strong>Response available!</strong></p>
                                                             <p class="response-body">{{ response.body }}</p>
                                                             <hr>
                                                             {% if response.pdf %}

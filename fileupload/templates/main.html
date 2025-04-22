@@ -2,89 +2,129 @@
 {% block title %}{{ title }}{% endblock %} 
 {% load static %}
 {% block content %}
-  
 
-    <div class="container my-4">
-        <div class="row">
-            <!-- Profile Sidebar -->
-            {% include "components/profile.html" %}
-            <!-- Main Content -->
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header bg-light border-bottom-0">
-                        <ul class="nav nav-pills card-header-pills">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#questions" data-toggle="tab">Questions</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a>
-                            </li>
-                        </ul>
+<div class="container my-4">
+    <div class="row">
+        <!-- Profile Sidebar -->
+        {% include "components/profile.html" %}
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header bg-light border-bottom-0">
+                    <ul class="nav nav-pills card-header-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="questions-tab" href="#questions" data-toggle="tab">Questions</a>
+                        </li>
+                        {% comment %} <li class="nav-item">
+                            <a class="nav-link" id="timeline-tab" href="#timeline" data-toggle="tab">Timeline</a>
+                        </li> {% endcomment %}
+                    </ul>
+                </div>
+
+                <div class="card-body tab-content">
+                    <!-- Questions Tab -->
+                    <div class="tab-pane active" id="questions">
+                        {% for question in questions %}
+                        <div class="post border-bottom pb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{% static 'images/user-286.png' %}" class="img-circle mr-2" width="40" height="40" alt="User image">
+                                <div>
+                                    <strong>{{ question.author.username }}</strong><br>
+                                    <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
+                                </div>
+                            </div>
+                            <p>{{ question.title }}</p>
+                            <p><em><small>{{ question.subject }}</small></em></p>
+                            <a href="{% url 'responses.html' question.id %}" class="btn btn-sm btn-outline-secondary"><i class="far fa-comments"></i> Responses</a>
+                        </div>
+                        {% endfor %}
+
+                        <!-- Pagination -->
+                        {% if questions.has_other_pages %}
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mt-4">
+                                {% if questions.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ questions.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">&laquo;</span>
+                                </li>
+                                {% endif %}
+
+                                {% for num in questions.paginator.page_range %}
+                                {% if questions.number == num %}
+                                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                {% elif num > questions.number|add:'-3' and num < questions.number|add:'3' %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+
+                                {% if questions.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ questions.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">&raquo;</span>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
                     </div>
-                    <div class="card-body tab-content">
-                        <div class="tab-pane active" id="questions">
-                            {% for question in questions %}
-                            <div class="post border-bottom pb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <img src="{% static 'images/user-286.png' %}" class="img-circle mr-2" width="40" height="40" alt="User image">
-                                    <div>
-                                        <strong>{{ question.author.username }}</strong><br>
-                                        <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
-                                    </div>
-                                </div>
-                                <p>{{ question.title }}</p>
-                                <p><em> <small>{{ question.subject }}</small></em></p>
-                                <a href="{% url 'responses.html' question.id %}" class="btn btn-sm btn-outline-secondary"><i class="far fa-comments"></i> Responses</a>
-                            </div>
-                            {% endfor %}
-                        </div>
 
-                        <div class="tab-pane" id="timeline">
-                            {% for question in questions %}
-                            <div class="timeline timeline-inverse">
-                                <div class="time-label">
-                                    <span class="badge badge-success">Feedback</span>
-                                </div>
-
-                                <div class="timeline-item">
-                                    <i class="fas fa-comments bg-warning"></i>
-                                    {% if not question.responses.all %}
-                                    <h5 class="timeline-header">{{ question.author.username }} asked:</h5>
-                                    <div class="timeline-body">
-                                        <strong>{{ question.subject }}</strong>
-                                        <p>{{ question.title }}</p>
-                                        <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a href="{% url 'responses.html' question.id %}" class="btn btn-warning btn-sm">View question</a>
-                                    </div>
-                                    {% else %}
-                                    {% for response in question.get_responses %}
-                                    <h5 class="timeline-header">{{ response.user.username }} responded:</h5>
-                                    <div class="timeline-body">
-                                        <strong>{{ question.subject }}</strong>
-                                        <p>{{ question.title }}</p>
-                                        <blockquote class="blockquote">
-                                            <p class="mb-0">{{ response.body }}</p>
-                                            <footer class="blockquote-footer"><i class="far fa-clock"></i> {{ response.created_at }}</footer>
-                                        </blockquote>
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a href="{% url 'responses.html' question.id %}" class="btn btn-info btn-sm">View comment</a>
-                                    </div>
-                                    {% endfor %}
-                                    {% endif %}
-                                </div>
+                    <!-- Timeline Tab -->
+                    <div class="tab-pane" id="timeline">
+                        {% for question in questions %}
+                        <div class="timeline timeline-inverse">
+                            <div class="time-label">
+                                <span class="badge badge-success">Feedback</span>
                             </div>
-                            {% endfor %}
+
+                            <div class="timeline-item">
+                                <i class="fas fa-comments bg-warning"></i>
+
+                                {% if not question.responses.all %}
+                                <h5 class="timeline-header">{{ question.author.username }} asked:</h5>
+                                <div class="timeline-body">
+                                    <strong>{{ question.subject }}</strong>
+                                    <p>{{ question.title }}</p>
+                                    <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
+                                </div>
+                                <div class="timeline-footer">
+                                    <a href="{% url 'responses.html' question.id %}" class="btn btn-warning btn-sm">View question</a>
+                                </div>
+                                {% else %}
+                                {% for response in question.get_responses %}
+                                <h5 class="timeline-header">{{ response.user.username }} responded:</h5>
+                                <div class="timeline-body">
+                                    <strong>{{ question.subject }}</strong>
+                                    <p>{{ question.title }}</p>
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">{{ response.body }}</p>
+                                        <footer class="blockquote-footer"><i class="far fa-clock"></i> {{ response.created_at }}</footer>
+                                    </blockquote>
+                                </div>
+                                <div class="timeline-footer">
+                                    <a href="{% url 'responses.html' question.id %}" class="btn btn-info btn-sm">View comment</a>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-   
+</div>
 {% endblock %}
 
- 
