@@ -9,10 +9,17 @@ class SiteUsers(models.Model):
     program = models.CharField(max_length=180, null=True)
     pro_pic = models.ImageField(default="images/user-3.png",null=True, blank=True,upload_to='media')
 
+class Subject(models.Model):
+    code = models.CharField(max_length=7,null=False, unique=True)
+    name = models.CharField(max_length=100, null=False, unique=True)
+
+    def __str__(self):
+        return f'{self.code}-{self.name}'
+
 class Question(models.Model):
     author = models.ForeignKey(User, null=True, on_delete = models.CASCADE)
     title = models.CharField(max_length = 300,null=False)
-    subject = models.CharField(max_length=100, null=False)
+    subject = models.ForeignKey(Subject,null=False ,on_delete=models.CASCADE)
     body = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
