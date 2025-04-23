@@ -35,7 +35,7 @@
 
                                                 <!-- Responses -->
                                                 <div class="responses-container">
-                                                    <h4 class="responses-container-heading">Responses</h4>
+                                                    <h5 class="responses-container-heading">Responses <span class="badge badge-light">{{ question.get_responses.count }}</span></h5>
                                                     {% if not question.responses.all %}
                                                         <p class="no-responses-text"><i class="far fa-frown"></i> <strong>No responses yet</strong></p>
                                                     {% else %}
@@ -47,7 +47,7 @@
                                                                 {% if response.pdf %}
                                                                     <a href="{{ response.pdf.url }}" class="btn btn-outline-info btn-sm" target="_blank"><i class="fa fa-download"></i> Download File</a>
                                                                 {% else %}
-                                                                    <span class="text-muted"><small>No PDF</small></span>
+                                                                    <span class="text-muted"><small></small></span>
                                                                 {% endif %}
                                                                 <br>
                                                                 <br>

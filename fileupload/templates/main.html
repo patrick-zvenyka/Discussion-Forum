@@ -23,6 +23,7 @@
                 </div>
 
                 <div class="card-body tab-content">
+                 
                     <!-- Questions Tab -->
                     <div class="tab-pane active" id="questions">
                         {% for question in questions %}
@@ -36,7 +37,7 @@
                             </div>
                             <p>{{ question.title }}</p>
                             <p><em><small>{{ question.subject }}</small></em></p>
-                            <a href="{% url 'responses.html' question.id %}" class="btn btn-sm btn-outline-secondary"><i class="far fa-comments"></i> Responses</a>
+                            <a href="{% url 'responses' question.id %}" class="btn btn-sm btn-outline-secondary"><i class="far fa-comments"></i> Responses <span class="badge badge-light">{{ question.get_responses.count }}</span></a>
                         </div>
                         {% endfor %}
 
@@ -99,7 +100,7 @@
                                     <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
                                 </div>
                                 <div class="timeline-footer">
-                                    <a href="{% url 'responses.html' question.id %}" class="btn btn-warning btn-sm">View question</a>
+                                    <a href="{% url 'responses' question.id %}" class="btn btn-warning btn-sm">View question</a>
                                 </div>
                                 {% else %}
                                 {% for response in question.get_responses %}
@@ -113,7 +114,7 @@
                                     </blockquote>
                                 </div>
                                 <div class="timeline-footer">
-                                    <a href="{% url 'responses.html' question.id %}" class="btn btn-info btn-sm">View comment</a>
+                                    <a href="{% url 'responses' question.id %}" class="btn btn-info btn-sm">View comment</a>
                                 </div>
                                 {% endfor %}
                                 {% endif %}

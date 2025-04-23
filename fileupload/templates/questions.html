@@ -26,6 +26,15 @@
                                 <div class="card-body">
                                     <div class="tab-content">
                                         <div class="active tab-pane" id="askquestion">
+                                            {% if messages %}
+                                                {% for message in messages %}
+                                                    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                                                        {{ message }}
+                                                        {% comment %} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> {% endcomment %}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+
                                             <form class="form-horizontal" method="POST" action="">
                                                 {% csrf_token %}
                                                 <div class="form-group row">

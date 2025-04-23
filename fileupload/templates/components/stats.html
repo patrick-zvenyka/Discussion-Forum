@@ -5,9 +5,23 @@
             <h6 class="mb-0">Filters</h6>
         </div>
         <div class="card-body profile-actions">
-            <a href=""class="badge badge-primary">All {questions.count}</a>
-            <a href=""><button class="btn btn-secondary">Ask Questions</button></a>
-            <a href=""><button class="btn btn-info">Home</button></a>
+             <!-- Filter by Response Count -->
+            <h6 class="text-muted mt-3">Subjects</h6>
+            {% for subject in subjects %}
+            <a href="?subject={{ subject.id }}" class="badge badge-light d-block mb-1">{{ subject.name }}</a>
+            {% endfor %}
+             <!-- Filter by Response Count -->
+            <h6 class="text-muted mt-3">Months</h6>
+            {% for month in months %}
+            <a href="?month={{ month.value }}" class="badge badge-light d-block mb-1">{{ month.name }}</a>
+            {% endfor %}
+             <!-- Filter by Response Count -->
+            {% comment %} <h6 class="text-muted mt-3">Responses</h6>
+            <a href="?responses=0" class="badge badge-warning d-block mb-1">No Responses</a>
+            <a href="?responses=1+" class="badge badge-success d-block mb-1">1+ Responses</a>
+            <a href="?responses=5+" class="badge badge-info d-block">5+ Responses</a> {% endcomment %}
         </div>
+       
+
     </div>
 </div>

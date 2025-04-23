@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Question, Response
+from .models import Question, Response, Subject
+from calendar import month_name
+from django.db.models import Count
 from django.http import HttpResponse
+from django.db.models import Count, Q
+from datetime import datetime
 from django.contrib import messages
 from .forms import RegisterUserForm, LoginForm, NewQuestionForm, NewResponseForm, SiteUsersForm
 from django.core.paginator import Paginator
@@ -45,20 +49,51 @@ def loginPage(request):
     return render(request, 'login.html', context)
 
 
-
 @login_required(login_url='login.html')
 def main(request):
     questions_list = Question.objects.all().order_by('-created_at')
-    paginator = Paginator(questions_list, 5)  # Show 10 per page
 
+    # Get filter query params
+    subject_id = request.GET.get('subject')
+    month = request.GET.get('month')
+    responses = request.GET.get('responses')
+
+    # Apply Subject Filter
+    if subject_id:
+        questions_list = questions_list.filter(subject_id=subject_id)
+
+    # Apply Month Filter
+    if month:
+        questions_list = questions_list.filter(created_at__month=int(month))
+
+    # Apply Response Count Filter
+    # if responses:
+    #     questions_list = questions_list.annotate(num_responses=Count('responses'))
+    #     if responses == "0":
+    #         questions_list = questions_list.filter(num_responses=0)
+    #     elif responses == "1+":
+    #         questions_list = questions_list.filter(num_responses__gte=1)
+    #     elif responses == "5+":
+    #         questions_list = questions_list.filter(num_responses__gte=5)
+
+    # Pagination
+    paginator = Paginator(questions_list, 5)
     page_number = request.GET.get('page')
     questions = paginator.get_page(page_number)
 
+    # Context for filters
+    subjects = Subject.objects.all()
+    months = [{'value': i, 'name': month_name[i]} for i in range(1, 13)]
+
     context = {
         'questions': questions,
-        'title': 'StudyCircle | Dashboard'
+        'title': 'StudyCircle | Dashboard',
+        'subjects': subjects,
+        'months': months,
     }
+
     return render(request, 'main.html', context)
+
 
 
 def home(request):
@@ -83,23 +118,28 @@ def logoutPage(request):
     messages.info(request, 'You are logging out!')
     return redirect('login.html')
 
-@login_required(login_url = 'login.html')
-def newQuestionPage(request):
-    form = NewQuestionForm()
+from django.contrib import messages
+from django.shortcuts import redirect
 
+@login_required(login_url='login.html')
+def newQuestionPage(request):
     if request.method == 'POST':
-        try:
-            form = NewQuestionForm(request.POST)
-            if form.is_valid():
-                question = form.save(commit=False)
-                question.author = request.user
-                question.save()
-        except Exception as e:
-            print(e)
-            raise
-    context = {'form': form, 'title':'StudyCircle | Ask Questions'
+        form = NewQuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.author = request.user
+            question.save()
+            messages.success(request, 'Your question was posted successfully!')
+            return redirect('questions')  # Replace with your actual URL name
+    else:
+        form = NewQuestionForm()
+    
+    context = {
+        'form': form,
+        'title': 'StudyCircle | Ask Questions'
     }
     return render(request, 'questions.html', context)
+
 
 @login_required(login_url = 'login.html')
 def questionpage(request, id):

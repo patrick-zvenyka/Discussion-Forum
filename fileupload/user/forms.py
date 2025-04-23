@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.db import models
-from .models import Question, Response, SiteUsers
+from .models import Question, Response, SiteUsers, Subject
 
 class RegisterUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -46,8 +46,14 @@ class LoginForm(AuthenticationForm):
             'class': 'form-control'
         })
 
-
 class NewQuestionForm(forms.ModelForm):
+    subject = forms.ModelChoiceField(
+        queryset=Subject.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label='Subject',
+        empty_label="Select a subject",
+    )
+
     class Meta:
         model = Question
         fields = ['title', 'subject', 'body']
@@ -57,16 +63,17 @@ class NewQuestionForm(forms.ModelForm):
                 'autofocus': True,
                 'placeholder': 'Your question title',
             }),
-            'subject': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Subject area of the question',
-            }),
             'body': forms.Textarea(attrs={
                 'class': 'form-control',
                 'placeholder': 'Write your question in detail...',
                 'rows': 5,
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Customize how the subject appears in the dropdown
+        self.fields['subject'].label_from_instance = lambda obj: f"{obj.code} - {obj.name}"
 
 class NewResponseForm(forms.ModelForm):
     class Meta:
