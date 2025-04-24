@@ -1,18 +1,26 @@
  {% load static %}
  <div class="col-md-3">
-    <div class="card">
+    <div class="card shadow-sm border-0">
         <div class="card-body text-center">
-            <img class="img-fluid img-circle mb-3" src="{% static 'images/user-286.png' %}" alt="Profile Picture" style="width:100px; height:100px;">
-            {% comment %} <h5 class="card-title">{{ request.user }}</h5> {% endcomment %}
-            {% comment %} <p><i class="fas fa-book mr-1"></i> {{ request.user.siteusers.program }}</p>
-            <p><i class="fas fa-pencil-alt mr-1"></i> {{ request.user.siteusers.position }}</p> {% endcomment %}
-            <p><i class="far fa-envelope mr-1"></i> {{ request.user.email }}</p>
+            <div class="d-flex flex-column align-items-center">
+                <img 
+                    class="rounded-circle mb-3 border" 
+                    src="{% static 'images/user-286.png' %}" 
+                    alt="Profile Picture" 
+                    style="width: 100px; height: 100px; object-fit: cover;"
+                >
+                <h5 class="card-title mb-1 fw-semibold">{{ request.user }}</h5>
+                <p class="text-muted mb-0">
+                    <i class="far fa-envelope me-1"></i> {{ request.user.email }}
+                </p>
+            </div>
         </div>
     </div>
 
+
     <div class="card mt-3">
         <div class="card-header bg-primary text-white">
-            <h6 class="mb-0">Profile Actions</h6>
+            <h6 class="mb-0">Actions</h6>
         </div>
         <div class="card-body profile-actions">
             <a href="{% url 'logout' %}"><button class="btn btn-warning">Log Out</button></a>

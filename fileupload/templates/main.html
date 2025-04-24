@@ -16,9 +16,9 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="questions-tab" href="#questions" data-toggle="tab">Questions</a>
                         </li>
-                        {% comment %} <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" id="timeline-tab" href="#timeline" data-toggle="tab">Timeline</a>
-                        </li> {% endcomment %}
+                        </li>
                     </ul>
                 </div>
 
@@ -27,17 +27,21 @@
                     <!-- Questions Tab -->
                     <div class="tab-pane active" id="questions">
                         {% for question in questions %}
-                        <div class="post border-bottom pb-3">
-                            <div class="d-flex align-items-center mb-2">
-                                <img src="{% static 'images/user-286.png' %}" class="img-circle mr-2" width="40" height="40" alt="User image">
-                                <div>
-                                    <strong>{{ question.author.username }}</strong><br>
-                                    <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
+                         <div class="card my-3 shadow-lg p-3 mb-5 bg-body rounded">
+                            <div class="card-body p-3">
+                                <div class="post border-bottom pb-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <img src="{% static 'images/user-286.png' %}" class="img-circle mr-2" width="40" height="40" alt="User image">
+                                        <div>
+                                            <strong>{{ question.author.username }}</strong><br>
+                                            <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
+                                        </div>
+                                    </div>
+                                    <p>{{ question.title }}</p>
+                                    <p><em><small>{{ question.subject }}</small></em></p>
+                                    <a href="{% url 'responses' question.id %}" class="btn btn-sm btn-outline-secondary"><i class="far fa-comments"></i> Responses <span class="badge badge-light">{{ question.get_responses.count }}</span></a>
                                 </div>
                             </div>
-                            <p>{{ question.title }}</p>
-                            <p><em><small>{{ question.subject }}</small></em></p>
-                            <a href="{% url 'responses' question.id %}" class="btn btn-sm btn-outline-secondary"><i class="far fa-comments"></i> Responses <span class="badge badge-light">{{ question.get_responses.count }}</span></a>
                         </div>
                         {% endfor %}
 

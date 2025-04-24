@@ -24,42 +24,52 @@
                                         <div class="tab-pane active" id="activity">
                                             <!-- Question Block -->
                                             <div class="post">
-                                                <div class="user-block">
-                                                    <img class="img-circle img-bordered-sm" src="{% static 'images/user-286.png' %}" alt="user image">
-                                                    <span class="username"><a href="#">{{ question.author.username }}</a></span>
-                                                    <span class="description">{{ question.subject }} | <strong>Posted:</strong> <i class="far fa-clock"></i> {{ question.created_at }}</span>
+                                                <div class="card my-3 shadow-lg p-3 mb-5 bg-body rounded">
+                                                    <div class="card-body p-3">
+                                                        <div class="user-block">
+                                                            <img class="img-circle img-bordered-sm" src="{% static 'images/user-286.png' %}" alt="user image">
+                                                            <span class="username"><a href="#">{{ question.author.username }}</a></span>
+                                                            <span class="description">{{ question.subject }} | <strong>Posted:</strong> <i class="far fa-clock"></i> {{ question.created_at }}</span>
+                                                        </div>
+                                                        <p><strong>{{ question.title }}</strong></p>
+                                                        <p>{{ question.body }}</p>
+                                                    </div>
                                                 </div>
-                                                <p><strong>{{ question.title }}</strong></p>
-                                                <p>{{ question.body }}</p>
                                                 <hr>
 
                                                 <!-- Responses -->
                                                 <div class="responses-container">
-                                                    <h5 class="responses-container-heading">Responses <span class="badge badge-light">{{ question.get_responses.count }}</span></h5>
+                                                    <h5 class="responses-container-heading">
+                                                        Responses 
+                                                        <span class="badge bg-light text-dark">{{ question.get_responses.count }}</span>
+                                                    </h5>
+
                                                     {% if not question.responses.all %}
-                                                        <p class="no-responses-text"><i class="far fa-frown"></i> <strong>No responses yet</strong></p>
+                                                    <div class="alert alert-secondary d-flex align-items-center mt-3" role="alert">
+                                                        <i class="far fa-frown me-2"></i>
+                                                        <strong>No responses yet</strong>
+                                                    </div>
                                                     {% else %}
-                                                        {% for response in question.get_responses %}
-                                                        <div class="card-body">
-                                                            <blockquote id="{{ response.id }}">
-                                                                <p class="response-body">{{ response.body }}</p>
-                                                           
-                                                                {% if response.pdf %}
-                                                                    <a href="{{ response.pdf.url }}" class="btn btn-outline-info btn-sm" target="_blank"><i class="fa fa-download"></i> Download File</a>
-                                                                {% else %}
-                                                                    <span class="text-muted"><small></small></span>
-                                                                {% endif %}
-                                                                <br>
-                                                                <br>
-                                                                <div class="user-block">
-                                                                    <img class="img-circle img-bordered-sm" src="{% static 'images/user-286.png' %}" alt="user image">
-                                                                    <span class="username"><a href="#">{{ response.user.username }}</a></span>
-                                                                    <span class="description"><strong>Response Time:</strong> <i class="far fa-clock"></i> {{ response.updated_at }}</span>
-                                                                </div>
-                                                     
-                                                            </blockquote>
+                                                    {% for response in question.get_responses %}
+                                                    <div class="card my-3 shadow-none p-3 mb-5 bg-light rounded">
+                                                        <div class="card-body p-3">
+                                                            <div class="user-block">
+                                                                <img class="img-circle img-bordered-sm me-2" src="{% static 'images/user-286.png' %}" alt="user image" width="32" height="32">
+                                                                <span class="username d-block mb-0 fw-semibold" style="font-size: 14px;">{{ response.user.username }}</span>
+                                                                <span class="description text-muted" style="font-size: 13px;">
+                                                                    <strong>Response Time:</strong> <i class="far fa-clock"></i> {{ response.updated_at }}
+                                                                </span>
+                                                            </div>
+                                                            <p class="mt-2 mb-0" style="font-size: 14px;">{{ response.body }}</p>
+
+                                                            {% if response.pdf %}
+                                                                <a href="{{ response.pdf.url }}" class="btn btn-sm btn-outline-info mt-2" target="_blank">
+                                                                    <i class="fa fa-download me-1"></i> Download File
+                                                                </a>
+                                                            {% endif %}
                                                         </div>
-                                                        {% endfor %}
+                                                    </div>
+                                                    {% endfor %}
                                                     {% endif %}
                                                 </div>
 

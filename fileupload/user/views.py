@@ -22,7 +22,7 @@ def registerPage(request):
                 user = form.save()
                 messages.success(request, "Account successfully created!")
                 login(request, user)
-                return redirect('login.html') 
+                return redirect('login') 
         except Exception as e:
             print(e)
             raise
