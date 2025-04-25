@@ -6,7 +6,7 @@
         </div>
         <div class="card-body profile-actions">
              <!-- Filter by Response Count -->
-            <h6 class="text-muted mt-3">Subjects</h6>
+            <h6 class="text-muted mt-3">Subjects <span class="badge bg-primary">{{subjects_total}}</span></h6>
             {% for subject in subjects %}
             <a href="?subject={{ subject.id }}" class="badge badge-light d-block mb-1">{{ subject.name }}</a>
             {% endfor %}

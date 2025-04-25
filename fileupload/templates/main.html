@@ -14,14 +14,17 @@
                 <div class="card-header bg-light border-bottom-0">
                     <ul class="nav nav-pills card-header-pills">
                         <li class="nav-item">
-                            <a class="nav-link active" id="questions-tab" href="#questions" data-toggle="tab">Questions</a>
+                            <a class="nav-link active" id="questions-tab" href="#questions" data-toggle="tab">Questions <span class="badge bg-secondary">{{ total_questions }}</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="timeline-tab" href="#timeline" data-toggle="tab">Timeline</a>
+                            <a class="nav-link" id="myquestions-tab" href="#myquestions" data-toggle="tab">My Questions <span class="badge bg-primary">{{ user_questions }}</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="timeline-tab" href="#timeline" data-toggle="tab">Timeline  <span class="badge bg-success">{{ total_responses }}</span></a>
                         </li>
                     </ul>
                 </div>
-
+                
                 <div class="card-body tab-content">
                  
                     <!-- Questions Tab -->
@@ -85,6 +88,36 @@
                         {% endif %}
                     </div>
 
+                     <!-- My Questions Tab -->
+                    <div class="tab-pane" id="myquestions">
+                        {% for question in questions %}
+                        {% if question.author == request.user %}
+                        <div class="card my-3 shadow-lg p-3 mb-5 bg-body rounded">
+                            <div class="card-body p-3">
+                                <div class="post border-bottom pb-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <img src="{% static 'images/user-286.png' %}" class="img-circle mr-2" width="40" height="40" alt="User image">
+                                        <div>
+                                            <strong>{{ question.author.username }}</strong><br>
+                                            <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
+                                        </div>
+                                    </div>
+                                    <p>{{ question.title }}</p>
+                                    <p><em><small>{{ question.subject }}</small></em></p>
+                                    <a href="{% url 'responses' question.id %}" class="btn btn-sm btn-outline-secondary">
+                                        <i class="far fa-comments"></i> Responses 
+                                        <span class="badge badge-light">{{ question.get_responses.count }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% empty %}
+                        <p class="text-center">You haven't asked any questions yet.</p>
+                        {% endfor %}
+                    </div>
+
+
                     <!-- Timeline Tab -->
                     <div class="tab-pane" id="timeline">
                         {% for question in questions %}
@@ -93,36 +126,39 @@
                                 <span class="badge badge-success">Feedback</span>
                             </div>
 
-                            <div class="timeline-item">
-                                <i class="fas fa-comments bg-warning"></i>
-
-                                {% if not question.responses.all %}
-                                <h5 class="timeline-header">{{ question.author.username }} asked:</h5>
-                                <div class="timeline-body">
-                                    <strong>{{ question.subject }}</strong>
-                                    <p>{{ question.title }}</p>
-                                    <small><i class="far fa-clock"></i> {{ question.created_at }}</small>
+                           <div class="timeline-item p-3 mb-4 border rounded shadow-sm">
+                                <div class="d-flex align-items-start mb-2">
+                                    <i class="fas fa-comments bg-warning text-white rounded-circle p-2 me-3"></i>
+                                    <div class="flex-grow-1">
+                                    {% if not question.responses.all %}
+                                    <p class="timeline-header mb-1 fw-bold">{{ question.author.username }} asked:</p>
+                                    <div class="timeline-body mb-2">
+                                        <strong class="d-block">{{ question.subject }}</strong>
+                                        <p class="mb-2">{{ question.title }}</p>
+                                        <small class="text-muted"><i class="far fa-clock"></i> {{ question.created_at }}</small>
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a href="{% url 'responses' question.id %}" class="btn btn-warning btn-sm">View question</a>
+                                    </div>
+                                    {% else %}
+                                    {% for response in question.get_responses|slice:":1" %}
+                                    <p class="timeline-header mb-1 fw-bold">{{ response.user.username }} responded:</p>
+                                    <div class="timeline-body mb-2">
+                                        <strong class="d-block">{{ question.subject }}</strong>
+                                        <p class="mb-2">{{ question.title }}</p>
+                                        <div class="p-2 bg-light rounded">
+                                            <p class="mb-1">{{ response.body }}</p>
+                                            <small class="text-muted"><i class="far fa-clock"></i> {{ response.created_at }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a href="{% url 'responses' question.id %}" class="btn btn-info btn-sm">View comments</a>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
                                 </div>
-                                <div class="timeline-footer">
-                                    <a href="{% url 'responses' question.id %}" class="btn btn-warning btn-sm">View question</a>
-                                </div>
-                                {% else %}
-                                {% for response in question.get_responses %}
-                                <h5 class="timeline-header">{{ response.user.username }} responded:</h5>
-                                <div class="timeline-body">
-                                    <strong>{{ question.subject }}</strong>
-                                    <p>{{ question.title }}</p>
-                                    <blockquote class="blockquote">
-                                        <p class="mb-0">{{ response.body }}</p>
-                                        <footer class="blockquote-footer"><i class="far fa-clock"></i> {{ response.created_at }}</footer>
-                                    </blockquote>
-                                </div>
-                                <div class="timeline-footer">
-                                    <a href="{% url 'responses' question.id %}" class="btn btn-info btn-sm">View comment</a>
-                                </div>
-                                {% endfor %}
-                                {% endif %}
                             </div>
+                        </div>
                         </div>
                         {% endfor %}
                     </div>

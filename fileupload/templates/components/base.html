@@ -38,6 +38,16 @@
 
     <!-- Scripts -->
     <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    
+    <script>
+        $(document).ready(function () {
+            $('a[data-toggle="tab"]').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+    </script>
+
 </body>
 </html>

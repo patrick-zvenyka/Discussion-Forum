@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Question, Response, Subject
+from .models import *
 from calendar import month_name
 from django.db.models import Count
 from django.http import HttpResponse
@@ -52,8 +52,13 @@ def loginPage(request):
 @login_required(login_url='login.html')
 def main(request):
     questions_list = Question.objects.all().order_by('-created_at')
+    total_questions = Question.objects.all().prefetch_related('responses').count()
+    user_questions = Question.objects.filter(author=request.user).count()
+    total_responses = Response.objects.count()
+
 
     # Get filter query params
+    subjects_total = Subject.objects.all().count()
     subject_id = request.GET.get('subject')
     month = request.GET.get('month')
     responses = request.GET.get('responses')
@@ -90,6 +95,10 @@ def main(request):
         'title': 'StudyCircle | Dashboard',
         'subjects': subjects,
         'months': months,
+        'total_questions':total_questions,
+        'total_responses':total_responses,
+        'user_questions': user_questions,
+        'subjects_total':subjects_total
     }
 
     return render(request, 'main.html', context)
@@ -109,17 +118,16 @@ def profile(request):
             
             form.save()
     context ={
-        'form': form
+        'form': form,
+        'title': 'StudyCirle | Profile'
     }
     return render(request, 'profile.html', context)
 
 def logoutPage(request):
     logout(request)
     messages.info(request, 'You are logging out!')
-    return redirect('login.html')
+    return redirect('login')
 
-from django.contrib import messages
-from django.shortcuts import redirect
 
 @login_required(login_url='login.html')
 def newQuestionPage(request):
@@ -129,7 +137,6 @@ def newQuestionPage(request):
             question = form.save(commit=False)
             question.author = request.user
             question.save()
-            messages.success(request, 'Your question was posted successfully!')
             return redirect('questions')  # Replace with your actual URL name
     else:
         form = NewQuestionForm()

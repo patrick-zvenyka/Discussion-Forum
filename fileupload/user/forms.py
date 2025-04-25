@@ -96,3 +96,21 @@ class SiteUsersForm(forms.ModelForm):
         model = SiteUsers
         fields = '__all__'
         exclude = ['user']
+        widgets = {
+            'position': forms.TextInput(attrs={
+                'class': 'form-control',
+                'autofocus': True,
+                'placeholder': 'Your position',
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Your email',
+            }),
+            'program': forms.TextInput(attrs={
+                'class':'form-control',
+                'placeholder':'Your program'
+            }),
+            'pro_pic': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            })
+        }
