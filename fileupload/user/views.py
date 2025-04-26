@@ -7,6 +7,9 @@ from django.db.models import Count
 from django.http import HttpResponse
 from django.db.models import Count, Q
 from datetime import datetime
+from django.db.models import Count
+from django.db.models.functions import ExtractMonth
+from calendar import month_name
 from django.contrib import messages
 from .forms import RegisterUserForm, LoginForm, NewQuestionForm, NewResponseForm, SiteUsersForm
 from django.core.paginator import Paginator
@@ -48,14 +51,12 @@ def loginPage(request):
     context = {'form':form,'title':'StudyCircle | Login Page'}
     return render(request, 'login.html', context)
 
-
 @login_required(login_url='login.html')
 def main(request):
     questions_list = Question.objects.all().order_by('-created_at')
-    total_questions = Question.objects.all().prefetch_related('responses').count()
+    total_questions = questions_list.prefetch_related('responses').count()
     user_questions = Question.objects.filter(author=request.user).count()
     total_responses = Response.objects.count()
-
 
     # Get filter query params
     subjects_total = Subject.objects.all().count()
@@ -71,38 +72,37 @@ def main(request):
     if month:
         questions_list = questions_list.filter(created_at__month=int(month))
 
-    # Apply Response Count Filter
-    # if responses:
-    #     questions_list = questions_list.annotate(num_responses=Count('responses'))
-    #     if responses == "0":
-    #         questions_list = questions_list.filter(num_responses=0)
-    #     elif responses == "1+":
-    #         questions_list = questions_list.filter(num_responses__gte=1)
-    #     elif responses == "5+":
-    #         questions_list = questions_list.filter(num_responses__gte=5)
-
     # Pagination
     paginator = Paginator(questions_list, 5)
     page_number = request.GET.get('page')
     questions = paginator.get_page(page_number)
 
-    # Context for filters
-    subjects = Subject.objects.all()
-    months = [{'value': i, 'name': month_name[i]} for i in range(1, 13)]
+    # Subjects with question counts
+    subjects = Subject.objects.annotate(total_questions=Count('question'))
+
+    # Months with question counts
+    months_query = Question.objects.annotate(month=ExtractMonth('created_at')).values('month').annotate(total_questions=Count('id')).order_by('month')
+    months = []
+    for m in months_query:
+        if m['month']:  # in case month is null
+            months.append({
+                'value': m['month'],
+                'name': month_name[m['month']],  # Full month name
+                'total_questions': m['total_questions']
+            })
 
     context = {
         'questions': questions,
         'title': 'StudyCircle | Dashboard',
         'subjects': subjects,
         'months': months,
-        'total_questions':total_questions,
-        'total_responses':total_responses,
+        'total_questions': total_questions,
+        'total_responses': total_responses,
         'user_questions': user_questions,
-        'subjects_total':subjects_total
+        'subjects_total': subjects_total
     }
 
     return render(request, 'main.html', context)
-
 
 
 def home(request):

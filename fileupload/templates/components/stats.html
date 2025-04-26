@@ -7,13 +7,14 @@
         <div class="card-body profile-actions">
              <!-- Filter by Response Count -->
             <h6 class="text-muted mt-3">Subjects <span class="badge bg-primary">{{subjects_total}}</span></h6>
+            <a href="{% url 'main-page' %}" class="badge badge-light d-block mb-1">All <span class="badge bg-secondary">{{ total_questions }}</span></a>
             {% for subject in subjects %}
-            <a href="?subject={{ subject.id }}" class="badge badge-light d-block mb-1">{{ subject.name }}</a>
+            <a href="?subject={{ subject.id }}" class="badge badge-light d-block mb-1">{{ subject.name }} <span class="badge bg-secondary ms-2">{{ subject.total_questions }}</span></a>
             {% endfor %}
              <!-- Filter by Response Count -->
             <h6 class="text-muted mt-3">Months</h6>
             {% for month in months %}
-            <a href="?month={{ month.value }}" class="badge badge-light d-block mb-1">{{ month.name }}</a>
+            <a href="?month={{ month.value }}" class="badge badge-light d-block mb-1">{{ month.name }}  <span class="badge bg-secondary ms-2">{{ month.total_questions }}</span></a>
             {% endfor %}
              <!-- Filter by Response Count -->
             {% comment %} <h6 class="text-muted mt-3">Responses</h6>
