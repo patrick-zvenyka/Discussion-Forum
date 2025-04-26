@@ -25,7 +25,7 @@
         <div class="card-body profile-actions">
             <a href="{% url 'main-page' %}"><button class="btn btn-info">Home</button></a>
             <a href="{% url 'questions' %}"><button class="btn btn-secondary">Ask Questions</button></a>
-            <a href="{% url 'profile' %}"><button class="btn btn-primary">Profile</button></a>
+            {% comment %} <a href="{% url 'profile' %}"><button class="btn btn-primary">Profile</button></a> {% endcomment %}
             <a href="{% url 'logout' %}"><button class="btn btn-warning">Log Out</button></a>
         </div>
     </div>
